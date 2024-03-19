@@ -1,13 +1,10 @@
 
 # <div style="display: flex; align-items: center;"> <img src="assets/hawk.png" alt="logo" width="50" height="50" style="margin: 0 10;"> <span style="margin: 0 10;">HawkEye: Training Video-Text LLMs for Grounding Text in Videos</span> </div>
 
+[**[Paper]**](https://arxiv.org/abs/2403.10228)
+[**[Checkpoint]**](https://huggingface.co/wangyueqian/HawkEye)
+[**[Dataset]**](internvid_g/README.md)
 
-<div style="display: flex; justify-content: space-evenly;">
-  <div><a href=""> <b>[Paper]</b> </a></div>
-  <div><a href="https://huggingface.co/wangyueqian/HawkEye"> <b>[Checkpoint]</b> </a></div>
-  <div><a href="internvid_g/README.md"> <b>[Dataset]</b> </a></div>
-</div>
-<br>
 
 ## Introduction
 ![performance](assets/performance.jpg)
@@ -42,7 +39,7 @@ After downloading all model checkpoints, the `model/` folder should looks like t
 
 ### Data preparation
 
-Download from [Dataset Homepage](https://huggingface.co/datasets/wangyueqian/HawkEye-IT), and save in `data/HawkEye-IT/` folder. We also provide data proessing code in `data_preparing/`, you can use it for reference.
+Download from [Dataset Homepage at 🤗HuggingFace](https://huggingface.co/datasets/wangyueqian/HawkEye-IT), and save in `data/HawkEye-IT/` folder. We also provide data proessing code in `data_preparing/`, you can use it for reference.
 
 Note that you also need to download the videos of each dataset from their original links, which is further explained in dataset homepage (this may take quite a while 🙃). Use soft links to link the video folder under `data/videos/`.
 
