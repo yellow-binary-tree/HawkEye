@@ -1,0 +1,14 @@
+model/*
+data/*
+outputs/*
+
+.ipynb_checkpoints/
+__pycache__
+
+*.pyc
+*.pth
+*.log
+*.out
+test.json
+debug.py
+debug.ipynb
