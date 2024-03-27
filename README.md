@@ -1,5 +1,5 @@
 
-# <div style="display: flex; align-items: center;"> <img src="assets/hawk.png" alt="logo" width="50" height="50" style="margin: 0 10;"> <span style="margin: 0 10;">HawkEye: Training Video-Text LLMs for Grounding Text in Videos</span> </div>
+# <div style="display: flex; align-items: center;"> <img src="assets/hawk.png" alt="logo" width="50" height="50" style="margin: 0 10;"> <span style="margin: 0 10;">&emsp;HawkEye: Training Video-Text LLMs for Grounding Text in Videos</span> </div>
 
 [**[Paper]**](https://arxiv.org/abs/2403.10228)
 [**[Checkpoint]**](https://huggingface.co/wangyueqian/HawkEye)
@@ -14,7 +14,7 @@ However, they perform almost the same as random on grounding text queries in lon
 We propose HawkEye, one of the first video-text LLMs that can perform temporal video grounding in a fully text-to-text manner. To collect training data that is applicable for temporal video grounding, we construct InternVid-G, a large-scale video-text corpus with segment-level captions and negative spans, with which we introduce two new time-aware training objectives to video-text LLMs. We also propose a coarse-grained method of representing segments in videos, which is more robust and easier for LLMs to learn and follow than other alternatives. 
 
 ### Datasets and Models
-We release our [**HawkEye Model Checkpoint at 🤗HuggingFace**](https://huggingface.co/wangyueqian/HawkEye), which is trained on [**InternVid-G dataset**](internvid_g/README.md).
+We release our HawkEye and our impl. VideoChat2 [**Model Checkpoints**](https://huggingface.co/wangyueqian/HawkEye), and [**InternVid-G Dataset**](internvid_g/README.md) at 🤗HuggingFace.
 
 ## Demo
 ![example1](assets/example1.jpg)
@@ -121,3 +121,6 @@ If you find this code useful in your research, please consider citing:
       primaryClass={cs.CV}
 }
 ```
+
+## Acknowledgments
+This project is based on [VideoChat and VideoChat2](https://github.com/OpenGVLab/Ask-Anything). Thanks for their great work!
