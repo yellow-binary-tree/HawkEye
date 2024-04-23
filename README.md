@@ -26,6 +26,8 @@ You can use `demo.ipynb` to test HawkEye on your data.
 
 ## Training
 ### Download model checkpoints
+
+- Create a directory `model/` for model checkpoints: `mkdir model/`
 - Follow [here](https://github.com/OpenGVLab/Ask-Anything/tree/main/video_chat#running-usage) to prepare vicuna-7b-v0
 - Download [umt_l16_qformer.pth](https://pjlab-gvm-data.oss-cn-shanghai.aliyuncs.com/videochat2/umt_l16_qformer.pth) and [videochat2_7b_stage2.pth](https://pjlab-gvm-data.oss-cn-shanghai.aliyuncs.com/videochat2/videochat2_7b_stage2.pth) from [VideoChat2](https://github.com/OpenGVLab/Ask-Anything/tree/main/video_chat2)
 
@@ -34,7 +36,7 @@ After downloading all model checkpoints, the `model/` folder should looks like t
 └── VideoChat2/
     └── umt_l16_qformer.pth
     └── videochat2_7b_stage2.pth
-└── vicuna-7b/
+└── vicuna-7b-v0/
 ```
 
 ### Data preparation
