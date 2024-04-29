@@ -6,6 +6,9 @@
 [**[Dataset]**](internvid_g/README.md)
 
 
+## Updates
+- 2024/04/29: Update the model loading process, merged trained params of videochat2 to `hawkeye.pth`. Now only ckpts of vicuna-7b-v-0 and `hawkeye.pth` are needed to load Hawkeye.
+
 ## Introduction
 ![performance](assets/performance.jpg)
 Video-text Large Language Models (video-text LLMs) have shown remarkable performance in answering questions and holding conversations on simple videos. 
@@ -29,14 +32,16 @@ You can use `demo.ipynb` to test HawkEye on your data.
 
 - Create a directory `model/` for model checkpoints: `mkdir model/`
 - Follow [here](https://github.com/OpenGVLab/Ask-Anything/tree/main/video_chat#running-usage) to prepare vicuna-7b-v0
-- Download [umt_l16_qformer.pth](https://pjlab-gvm-data.oss-cn-shanghai.aliyuncs.com/videochat2/umt_l16_qformer.pth) and [videochat2_7b_stage2.pth](https://pjlab-gvm-data.oss-cn-shanghai.aliyuncs.com/videochat2/videochat2_7b_stage2.pth) from [VideoChat2](https://github.com/OpenGVLab/Ask-Anything/tree/main/video_chat2)
+- Download the [HawkEye checkpoint](https://huggingface.co/wangyueqian/HawkEye)
+- (Optional) If you want to reproduce the instruction tuning process, download [umt_l16_qformer.pth](https://pjlab-gvm-data.oss-cn-shanghai.aliyuncs.com/videochat2/umt_l16_qformer.pth) and [videochat2_7b_stage2.pth](https://pjlab-gvm-data.oss-cn-shanghai.aliyuncs.com/videochat2/videochat2_7b_stage2.pth) from [VideoChat2](https://github.com/OpenGVLab/Ask-Anything/tree/main/video_chat2)
 
 After downloading all model checkpoints, the `model/` folder should looks like this:
 ```
-└── VideoChat2/
+└── hawkeye.pth
+└── vicuna-7b-v0/
+└── VideoChat2/ (optional)
     └── umt_l16_qformer.pth
     └── videochat2_7b_stage2.pth
-└── vicuna-7b-v0/
 ```
 
 ### Data preparation

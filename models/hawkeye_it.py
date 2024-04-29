@@ -21,7 +21,7 @@ class HawkEye_it(Blip2Base):
         # pretrained_path
         vit_blip_model_path = config.get("vit_blip_model_path", None)
         llama_model_path = config.get("llama_model_path")
-        stage3_model_path = config.get("stage3_model_path", "")  
+        videochat2_model_path = config.get("videochat2_model_path", "")
         self.bert_path = config.get("bert_path", "bert-base-uncased")
         freeze_vit = config.get("freeze_vit", True)
         freeze_qformer = config.get("freeze_qformer", True)
@@ -72,13 +72,6 @@ class HawkEye_it(Blip2Base):
             self.qformer.resize_token_embeddings(len(self.tokenizer))
         self.qformer.cls = None
 
-        if vit_blip_model_path:
-            logger.info(f"Load ViT and QFormer from {vit_blip_model_path}")
-            state_dict = torch.load(vit_blip_model_path, map_location="cpu")
-            msg = self.load_state_dict(state_dict, strict=False)
-            logger.info(msg)
-            logger.info('Loading ViT and Q-Former Done')
-        
         self.extra_num_query_token = extra_num_query_token
         if extra_num_query_token > 0:
             logger.info(f"Add extra {extra_num_query_token} tokens in QFormer")
@@ -117,7 +110,7 @@ class HawkEye_it(Blip2Base):
         else:
             from .blip2.modeling_llama import LlamaForCausalLM
         llama_config = LlamaConfig.from_pretrained(llama_model_path)
-        llama_config.num_frame_tokens = self.num_frame_tokens
+        llama_config.num_frame_tokens = self.num_frame_tokens       # this is for using special tokens to represent timestamps. not actually used in hawkeye.
 
         if debug:
             logger.info("Debug mode, build small LLAMA")
@@ -156,6 +149,24 @@ class HawkEye_it(Blip2Base):
             param.requires_grad = False
         logger.info('Loading LLAMA Done')
 
+        # load videochat2 model weights (including `vit_blip_model_path` and `videochat2_model_path` before lora) for the training process from videochat2 to hawkeye
+        # if you want to load instruction-tuned hawkeye, then you don't need to load videochat2, as all parameters will be overwritten by hawkeye checkpoint
+        if vit_blip_model_path:
+            logger.info(f"Load ViT and QFormer from {vit_blip_model_path}")
+            state_dict = torch.load(vit_blip_model_path, map_location="cpu")
+            msg = self.load_state_dict(state_dict, strict=False)
+            logger.info(msg)
+            logger.info('Loading ViT and Q-Former Done')
+
+        if videochat2_model_path:
+            logger.info(f"Load stage 2 VideoChat2 from: {videochat2_model_path}")
+            ckpt = torch.load(videochat2_model_path, map_location="cpu")
+            if 'model' in ckpt.keys():
+                msg = self.load_state_dict(ckpt['model'], strict=False)
+            else:
+                msg = self.load_state_dict(ckpt, strict=False)
+            logger.info(msg)
+
         if self.use_lora:
             logger.info("Use lora")
             peft_config = LoraConfig(
@@ -180,16 +191,6 @@ class HawkEye_it(Blip2Base):
                     logger.info("do not freeze %s" % name)
                     param.data = param.data.to(torch.float32)
                     param.requires_grad = True
-
-        # load it model weights
-        if stage3_model_path:
-            logger.info(f"Load stage 3 HawkEye from: {stage3_model_path}")
-            ckpt = torch.load(stage3_model_path, map_location="cpu")
-            if 'model' in ckpt.keys():
-                msg = self.load_state_dict(ckpt['model'], strict=False)
-            else:
-                msg = self.load_state_dict(ckpt, strict=False)
-            logger.info(msg)
         self.devices = [torch.device(0), torch.device(0)]       # device name of other params / vision encoder
 
 

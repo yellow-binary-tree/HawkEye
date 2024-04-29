@@ -385,7 +385,7 @@ class MVBench_dataset(Dataset):
 
         for idx, c in enumerate(data['candidates']):
             question += f"({chr(ord('A') + idx)}) {c}\n"
-            if c == answer:
+            if c.replace('.', '') == answer.replace('.', ''):
                 answer_idx = idx
         question = question.rstrip()
         if answer is not None:
@@ -646,27 +646,14 @@ if __name__ == "__main__":
     dataset_cls = MVBench_dataset if 'choice' in args.mode else GroundingDataset
     dataset = dataset_cls('', data_list, num_segments=args.num_frames, resolution=resolution, return_msg=args.return_video_msg)
 
-    # load stage2 model
     config_file = args.config
     cfg = Config.from_file(config_file)
     cfg.model.vision_encoder.num_frames = args.num_frames
 
-    use_lora = cfg.model.use_lora
-    cfg.model.use_lora = False      # do not add lora in __init__, we will add it later
     cfg.model.num_frame_tokens = args.num_frame_tokens
     model = HawkEye_it(config=cfg.model)
     model.set_device_ids([cfg.device])
     model = model.eval()
-
-    # add lora to run stage3 model
-    peft_config = LoraConfig(
-        task_type=TaskType.CAUSAL_LM, inference_mode=False, 
-        r=16, lora_alpha=32, lora_dropout=0.
-    )
-
-    if use_lora:
-        model.llama_model = get_peft_model(model.llama_model, peft_config)
-        model.use_lora = True
 
     print("loading ckpt from %s" % args.ckpt)
     state_dict = torch.load(args.ckpt, "cpu")
